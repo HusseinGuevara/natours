@@ -103,6 +103,7 @@ const tourSchema = new mongoose.Schema({
     ],
     guides: [
         {
+            // When a document is created, it is automaticly of the rtype ObjectId, or in this case UserId
             type: mongoose.Schema.ObjectId,
             ref: 'User'
         }
@@ -137,6 +138,16 @@ tourSchema.pre(/^find/, function(next) {
     this.start = Date.now();
     next();
 });
+
+
+// populate will add the actual data to the query and mot the database, without populate you on get the ID which is the reference point
+tourSchema.pre(/^find/, function(next) {
+    this.populate({
+        path: 'guides',
+        select: '-__v -passwordChangedAt'
+    });
+    next();
+})
 
 tourSchema.post(/^find/, function(docs, next) {
     console.log(`Query took ${Date.now() - this.start} milliseconds.`);
