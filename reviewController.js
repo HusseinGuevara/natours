@@ -24,6 +24,7 @@ exports.getReview = catchAsync( async (req, res, next) => {
     });
 });
 
+// This function gets all the reviews
 exports.getAllReviews = catchAsync( async (req, res, next) => {
     const reviews = await Review.find();
 
