@@ -4,7 +4,7 @@ const reviewSchema = new mongoose.Schema({
     review: {
         type: String,
         required: [true, 'A tour review is required.'],
-        minLength: [20, 'A tour must have atleast 20 charecters.']
+        minLength: [10, 'A tour must have atleast 10 charecters.']
     },
     rating: {
         type: Number,
@@ -32,6 +32,18 @@ const reviewSchema = new mongoose.Schema({
     toJSON: {virtuals: true},
     toObject: {virtuals: true}
 });
+
+// Query Middleware
+reviewSchema.pre(/^find/, function(next) {
+    this.populate({
+        path: 'user',
+        select: 'name'
+    }).populate({
+        path: 'tour',
+        select: 'name'
+    })
+    next();
+})
 
 const Review = mongoose.model('Review', reviewSchema);
 
