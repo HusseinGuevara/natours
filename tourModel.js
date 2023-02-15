@@ -60,7 +60,7 @@ const tourSchema = new mongoose.Schema({
     description: {
         type: String,
         trim: true,
-        required: [true, ' A tour must have a description.']
+        required: [true, 'A tour must have a description.']
     },
     imageCover: {
         type: String,
@@ -118,6 +118,13 @@ const tourSchema = new mongoose.Schema({
 // VIRTUAL PROPERTIES: a property that is not stored in MongoDB
 tourSchema.virtual('durationWeeks').get(function() {
     return this.duration / 7;
+});
+
+// Virtual populate
+tourSchema.virtual('reviews', {
+    ref: 'Review',
+    foreignField: 'tour',
+    localField: '_id'
 });
 
 // DOCUMENT MIDDLEWARE: runs before .save() and .create()
