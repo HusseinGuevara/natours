@@ -2,10 +2,12 @@ const express = require('express');
 const fs = require('fs');
 const tourController = require('./../controllers/tourController.js');
 const authController = require('./../controllers/authController.js');
-const reviewController = require('./../controllers/reviewController');
-
+const reviewRouter = require('./../routes/reviewRoutes');
 
 const router = express.Router();
+
+// Mount Review Router onto the tour router. Similiar to how I did on app.js
+router.use('/:tourId/reviews', reviewRouter);
 
 router
     .route('/top-5-cheap')
@@ -33,13 +35,5 @@ router
         authController.restrictTo('admin', 'lead-guide'),
         tourController.deleteTour
     );  
-
-router
-    .route('/:tourId/reviews')
-    .post(
-        authController.protect, 
-        authController.restrictTo('user'), 
-        reviewController.createReview
-    );
 
 module.exports = router;    

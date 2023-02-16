@@ -2,7 +2,9 @@ const express = require('express');
 const reviewController = require('./../controllers/reviewController.js');
 const authController = require('./../controllers/authController.js');
 
-const router = express.Router();
+
+// mergerParams allows us to merger the parameters from the tourRouter that we mounted reviewRouter to
+const router = express.Router({ mergeParams: true });
 
 router
     .route('/')
