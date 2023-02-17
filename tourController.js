@@ -2,6 +2,7 @@ const AppError = require('../utils/appError.js');
 const Tour = require('./../models/tourModel');
 const APIFeatures = require('./../utils/apiFeatures');
 const catchAsync = require('./../utils/catchAsync.js');
+const factory = require('./handlerFactory');
 
 // Callback functions for Tour routes
 
@@ -76,20 +77,7 @@ exports.updateTour = catchAsync(async (req, res) => {
     });
 });
 
-exports.deleteTour = catchAsync(async (req, res, next) => {
-    const tour =  await Tour.findByIdAndDelete(req.params.id);
-
-    if(!tour) {
-        return next(new AppError('No tour found with that ID', 404));
-    }
-
-    res.status(204).json({
-        status: 'success',
-        data: {
-            tour: null
-        }
-    });
-});
+exports.deleteTour = factory.deleteOne(Tour);
 
 exports.getTourStats = catchAsync(async (req, res, next) => {
     const stats = await Tour.aggregate([

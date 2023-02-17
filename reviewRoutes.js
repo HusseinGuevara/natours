@@ -16,7 +16,7 @@ router
     )
 
 router
-    .route('/:id')
-    .get(reviewController.getReview);
+    .route('/:id').delete(reviewController.deleteReview)  
+
 
 module.exports = router;    

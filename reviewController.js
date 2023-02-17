@@ -1,5 +1,7 @@
 const Review = require('./../models/reviewModel');
 const catchAsync = require('./../utils/catchAsync.js');
+const factory = require('./handlerFactory');
+
 
 exports.createReview = catchAsync(async (req, res, next) => {
     // Allow nested routes
@@ -12,18 +14,6 @@ exports.createReview = catchAsync(async (req, res, next) => {
         status: 'success',
         data: {
             review: newReview
-        }
-    });
-});
-
-// A function to get a specific review
-exports.getReview = catchAsync( async (req, res, next) => { 
-    const review = await Review.findById(req.params.id);
-
-    res.status(200).json({
-        status: 'success',
-        data: {
-            review: review
         }
     });
 });
@@ -42,3 +32,5 @@ exports.getAllReviews = catchAsync( async (req, res, next) => {
         }
     });
 });
+
+exports.deleteReview = factory.deleteOne(Review);
