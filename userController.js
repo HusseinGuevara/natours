@@ -3,7 +3,6 @@ const AppError = require('../utils/appError.js');
 const catchAsync = require('./../utils/catchAsync.js');
 const factory = require('./handlerFactory');
 
-
 const filterObj = (obj, ...allowedFields) => {
     // We loop thru obj and check if the key names is in the allowed fields and if it is we add it to the newObj and a filtered Object
     const newObj = {};
@@ -12,6 +11,10 @@ const filterObj = (obj, ...allowedFields) => {
     });
     return newObj;
 }
+
+// Do NOT uodate passwords with this function.
+exports.updateUser = factory.updateOne(User);
+exports.deleteUser = factory.deleteOne(User);
 
 exports.getAllUsers = catchAsync(async (req, res) => {
     const users = await User.find();
@@ -66,18 +69,10 @@ exports.getUser = (req, res) => {
     });
 };
 
-exports.createUser = (req, res) => {
-    res.status(500).json({
-        status: 'error',
-        message: 'This route is not yet defined!'
-    });
-};
+// exports.createUser = (req, res) => {
+//     res.status(500).json({
+//         status: 'error',
+//         message: 'This route is not yet defined!'
+//     });
+// };
 
-exports.updateUser = (req, res) => {
-    res.status(500).json({
-        status: 'error',
-        message: 'This route is not yet defined!'
-    });
-};
-
-exports.deleteUser = factory.deleteOne(User);
